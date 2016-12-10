@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <p id="text" style="margin: 40px; width: 200px; height:60px; border: 1px solid red">
+    При прокрутке колёсика мыши над этим элементом, он будет масштабироваться.
+  </p>
+  <script>
+
+  
+  function addWheel(element, handler) {
+  if (element.addEventListener) {
+  	if ('onwheel' in document) {
+  		element.addEventListener('wheel', handler);
+  	} else if ('onmousewheel' in document) {
+  		element.addEventListener('mousewheel', handler);
+  	} else {
+  		element.addEventListener('MozMousePixelScroll', handler);
+  	}
+  } else {
+  	element.attachEvent('onmousewheel', handler);
+  }
+}
+var scale = 1;
+function resize(e) {
+	var text = document.getElementById('text');
+	e = e || window.event;
+	var delta = e.deltaY || e.detail || e.wheelDelta;
+	if (delta > 0) {
+		scale += 0.05;
+	}
+	if (delta < 0) {
+		scale -= 0.05;
+	}
+	text.style.transform = text.style.WebKitTransform = text.style.MsTransform = 'scale(' + scale + ')';
+	e.preventDefault();
+}
+addWheel(text, resize);
+
+  </script>
+</body>
+
+</html>
